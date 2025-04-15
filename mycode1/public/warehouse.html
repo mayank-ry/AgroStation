@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroStation - Warehouse System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #f0f4f7, #e0f7e9);
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      color: #1b4332;
+      border-left: 5px solid #2d6a4f;
+      padding-left: 10px;
+    }
+    .warehouse-card, .inventory-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 15px 0;
+      transition: transform 0.2s;
+    }
+    .warehouse-card:hover, .inventory-card:hover {
+      transform: translateY(-3px);
+    }
+    .warehouse-card button {
+      background: #2d6a4f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    form {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    form input, form select {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border 0.2s;
+    }
+    form input:focus, form select:focus {
+      border-color: #2d6a4f;
+      outline: none;
+    }
+    form button {
+      background-color: #2d6a4f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    form button:hover {
+      background-color: #1b4332;
+    }
+    .cost-summary {
+      font-weight: bold;
+      color: #1b4332;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📦 Available Warehouses</h2>
+  <div id="warehouse-list"></div>
+
+  <h2>📑 Book Storage</h2>
+  <form id="booking-form">
+    <label>Crop Name</label>
+    <input type="text" id="crop" placeholder="e.g. Onion" required />
+
+    <label>Quantity (kg)</label>
+    <input type="number" id="quantity" placeholder="e.g. 500" required />
+
+    <label>Storage Duration (days)</label>
+    <input type="number" id="days" placeholder="e.g. 10" required />
+
+    <label>Select Warehouse</label>
+    <select id="warehouse-select" required></select>
+
+    <p class="cost-summary">Total Cost: ₹<span id="cost">0</span></p>
+
+    <button type="submit">Confirm Booking</button>
+  </form>
+
+  <h2>📋 Your Stored Crops</h2>
+  <div id="inventory"></div>
+
+  <script>
+    const warehouses = [
+      { id: 'W1', location: 'Nashik', capacity: 100000, available: 60000, costPerKg: 0.5, cold: true },
+      { id: 'W2', location: 'Indore', capacity: 80000, available: 20000, costPerKg: 0.4, cold: false },
+      { id: 'W3', location: 'Lucknow', capacity: 120000, available: 70000, costPerKg: 0.6, cold: true }
+    ];
+
+    const warehouseList = document.getElementById('warehouse-list');
+    const warehouseSelect = document.getElementById('warehouse-select');
+    const costDisplay = document.getElementById('cost');
+    const inventory = document.getElementById('inventory');
+
+    warehouses.forEach(wh => {
+      const card = document.createElement('div');
+      card.className = 'warehouse-card';
+      card.innerHTML = `
+        <h3>${wh.location} (${wh.cold ? 'Cold Storage' : 'Dry Storage'})</h3>
+        <p>📦 Capacity: ${wh.capacity}kg</p>
+        <p>✅ Available: ${wh.available}kg</p>
+        <p>💰 Cost: ₹${wh.costPerKg}/kg/day</p>
+      `;
+      warehouseList.appendChild(card);
+
+      const option = document.createElement('option');
+      option.value = wh.id;
+      option.textContent = `${wh.location} - ₹${wh.costPerKg}/kg/day`;
+      warehouseSelect.appendChild(option);
+    });
+
+    const form = document.getElementById('booking-form');
+    const cropInput = document.getElementById('crop');
+    const qtyInput = document.getElementById('quantity');
+    const daysInput = document.getElementById('days');
+
+    function calculateCost() {
+      const qty = Number(qtyInput.value);
+      const days = Number(daysInput.value);
+      const selectedId = warehouseSelect.value;
+      const wh = warehouses.find(w => w.id === selectedId);
+      if (qty && days && wh) {
+        return qty * days * wh.costPerKg;
+      }
+      return 0;
+    }
+
+    qtyInput.oninput = daysInput.oninput = warehouseSelect.onchange = () => {
+      costDisplay.textContent = calculateCost().toFixed(2);
+    };
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const booking = {
+        crop: cropInput.value,
+        quantity: qtyInput.value,
+        duration: daysInput.value,
+        warehouse: warehouseSelect.options[warehouseSelect.selectedIndex].text,
+        totalCost: calculateCost().toFixed(2)
+      };
+      const card = document.createElement('div');
+      card.className = 'inventory-card';
+      card.innerHTML = `
+        <p><strong>${booking.crop}</strong> - ${booking.quantity}kg for ${booking.duration} days</p>
+        <p>🏬 ${booking.warehouse}</p>
+        <p>💰 Cost: ₹${booking.totalCost}</p>
+      `;
+      inventory.appendChild(card);
+      form.reset();
+      costDisplay.textContent = 0;
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link rel="icon" type="image/png" href="agrologo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #4caf50, #2e7d32);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+      width: 350px;
+      position: relative;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2e7d32;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .input-group i {
+      position: absolute;
+      right: 10px;
+      top: 38px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .btn-login {
+      background: #4caf50;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background: #388e3c;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .success-message {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <h2>Admin Login</h2>
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter username">
+    </div>
+
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+      <i class="bi bi-eye-slash-fill" id="togglePassword" onclick="togglePassword()"></i>
+    </div>
+
+    <button class="btn-login" onclick="validateLogin()">Login</button>
+
+    <div id="error" class="error-message">Invalid credentials!</div>
+    <div id="success" class="success-message">Login successful! Redirecting...</div>
+  </div>
+
+  <script>
+    const adminUser = "admin";
+    const adminPass = "admin123";
+
+    function validateLogin() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const error = document.getElementById("error");
+      const success = document.getElementById("success");
+
+      if (username === adminUser && password === adminPass) {
+        error.style.display = "none";
+        success.style.display = "block";
+        setTimeout(() => {
+            window.location.href = "admin1.html";
+            ; // Redirect to admin dashboard
+        }, 1500);
+      } else {
+        error.style.display = "block";
+        success.style.display = "none";
+      }
+    }
+
+    function togglePassword() {
+      const passwordField = document.getElementById("password");
+      const icon = document.getElementById("togglePassword");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
+      } else {
+        passwordField.type = "password";
+        icon.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AgroStation Live Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e6f4ea, #c3f0d6);
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            background: #16a34a;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-width: 900px;
+        }
+
+        .map-card {
+            height: 45vh;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 2px solid #22c55e;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1.5px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 6px #a7f3d0;
+            outline: none;
+        }
+
+        button {
+            background-color: #16a34a;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #15803d;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #16a34a;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>🚚 AgroStation Live Tracker</header>
+
+    <div class="container">
+
+        <!-- Buyer View -->
+        <div class="card">
+            <h2>📦 Buyer: Track Your Product</h2>
+            <p class="status">Live location updates & path animation</p>
+            <div id="map" class="map-card"></div>
+        </div>
+
+        <!-- Seller/Admin View -->
+        <div class="card">
+            <h2>🏁 Seller/Admin: Set Delivery Route</h2>
+            <input type="text" id="pickup" placeholder="📍 Pickup Address (e.g., Delhi)">
+            <input type="text" id="delivery" placeholder="📦 Delivery Address (e.g., Mumbai)">
+            <input type="text" id="code" placeholder="🌎 Shipment ID (#H43NSH1)">
+            <button onclick="handleAddress()">🚀 Set Route & Start</button>
+        </div>
+
+    </div>
+
+    <footer>&copy; 2025 AgroStation • Powered by Firebase & OpenStreetMap</footer>
+
+    <script>
+        // Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLQaDlWrLtnuRjWCb23MZD48GiLWbcMw0",
+            authDomain: "agrostation-7baf6.firebaseapp.com",
+            databaseURL: "https://agrostation-7baf6-default-rtdb.firebaseio.com",
+            projectId: "agrostation-7baf6",
+            storageBucket: "agrostation-7baf6.appspot.com",
+            messagingSenderId: "1021664893239",
+            appId: "1:1021664893239:web:e89d4d467834c4829fe2b2"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Map Setup
+        const defaultLatLng = [23.2599, 77.4126];
+        const map = L.map("map").setView(defaultLatLng, 5);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap contributors"
+        }).addTo(map);
+
+        const marker = L.marker(defaultLatLng).addTo(map).bindPopup("📦 Waiting for location...").openPopup();
+        let animatedPolyline;
+
+        const locationRef = database.ref("tracking/product1");
+        locationRef.on("value", (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.lat && data.lng) {
+                const newLatLng = [data.lat, data.lng];
+                marker.setLatLng(newLatLng);
+                map.setView(newLatLng, 8);
+                marker.setPopupContent(`📍 Product Location:<br>Lat: ${data.lat.toFixed(4)}<br>Lng: ${data.lng.toFixed(4)}`).openPopup();
+            }
+        });
+
+        // Address geocoding
+        async function geocodeAddress(address) {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.length > 0) {
+                return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+            } else {
+                alert("❌ Address not found: " + address);
+                throw new Error("Invalid address");
+            }
+        }
+
+        // Set route and draw animated polyline
+        async function handleAddress() {
+            const pickup = document.getElementById("pickup").value;
+            const delivery = document.getElementById("delivery").value;
+            if (!pickup || !delivery) return alert("❌ Both fields required.");
+
+            try {
+                const pickupCoords = await geocodeAddress(pickup);
+                const deliveryCoords = await geocodeAddress(delivery);
+
+                database.ref("tracking/product1").set(deliveryCoords);
+
+                if (animatedPolyline) map.removeLayer(animatedPolyline);
+
+                const route = [pickupCoords, deliveryCoords];
+                animatedPolyline = L.polyline(route, { color: "#16a34a", weight: 5, dashArray: '10, 10' }).addTo(map);
+                map.fitBounds(animatedPolyline.getBounds());
+
+            } catch (err) {
+                console.error("Geocode error", err);
+            }
+        }
+    </script>
+</body>
+
+</html>

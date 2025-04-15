@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login/Register - AgroMarket</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("bglogin.jpg") no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(50px);
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: white;
+      width: 350px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label, input, select {
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    input, select {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <form id="userForm" onsubmit="handleSubmit(event)">
+    <h1>Login / Sign Up</h1>
+
+    <label for="role">Choose Role</label>
+    <select id="role" required onchange="toggleFormFields()">
+      <option value="">-- Select --</option>
+      <option value="buyer">Buyer</option>
+      <option value="seller">Seller</option>
+    </select>
+
+    <label for="name">Name</label>
+    <input id="name" type="text" required placeholder="Enter your name">
+
+    <label for="phone">Phone</label>
+    <input id="phone" type="tel" required pattern="[0-9]{10}" placeholder="10-digit phone number">
+
+    <label for="state">State</label>
+    <select id="state" required>
+      <option value="">Select State</option>
+      <option>Bihar</option>
+      <option>Madhya Pradesh</option>
+      <option>Punjab</option>
+      <option>Gujarat</option>
+      <option>Rajasthan</option>
+    </select>
+
+    <div id="locationDiv" class="hidden">
+      <label for="location">Farm Location</label>
+      <input id="location" type="text" placeholder="Enter farm location">
+    </div>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" required placeholder="example@example.com">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters">
+
+    <label for="fileInput">Upload ID Proof (optional)</label>
+    <input type="file" id="fileInput" />
+    
+
+
+    <button type="submit">Submit</button>
+    <div style="margin-top: 15px; text-align: center;">
+      <a href="signup.html" style="color: #fff; text-decoration: underline;">Don't have an account? Sign Up</a><br>
+      <a href="LOGINADMIN.HTML" style="color: #fff; text-decoration: underline;">Login as Admin</a>
+    </div>
+  
+  </form>
+
+  <script>
+    function toggleFormFields() {
+      const role = document.getElementById("role").value;
+      const locationDiv = document.getElementById("locationDiv");
+      locationDiv.classList.toggle("hidden", role !== "seller");
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("role", document.getElementById("role").value);
+      formData.append("name", document.getElementById("name").value);
+      formData.append("phone", document.getElementById("phone").value);
+      formData.append("state", document.getElementById("state").value);
+      formData.append("location", document.getElementById("location").value);
+      formData.append("email", document.getElementById("email").value);
+      formData.append("password", document.getElementById("password").value);
+
+      const file = document.getElementById("fileInput").files[0];
+      if (file) {
+        formData.append("file", file);
+      }
+
+      try {
+        const res = await fetch("/register", {
+          method: "POST",
+          body: formData
+        });
+
+        const msg = await res.text();
+        alert(msg);
+
+        if (res.ok) {
+          const user = {
+            name: document.getElementById("name").value,
+            role: document.getElementById("role").value,
+            email: document.getElementById("email").value
+          };
+
+          localStorage.setItem("user", JSON.stringify(user));
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        alert("Error submitting form. Please try again.");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
+

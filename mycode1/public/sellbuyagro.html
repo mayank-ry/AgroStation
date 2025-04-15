@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell Products - Marketplace</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f8f8;
+    }
+    h1, h3 {
+      text-align: center;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 0 auto;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    #successMessage {
+      display: none;
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sell Your Farm Product</h1>
+
+  <form id="sellForm">
+    <div class="form-group">
+      <label for="product-select-sell">Product:</label>
+      <select id="product-select-sell">
+        <option value="">Select Product</option>
+        <option value="Tomato">Tomato</option>
+        <option value="Wheat">Wheat</option>
+        <option value="Rice">Rice</option>
+        <option value="Onion">Onion</option>
+        <option value="Potato">Potato</option>
+        <option value="Cauliflower">Cauliflower</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" placeholder="Enter quantity" />
+    </div>
+
+    <div class="form-group">
+      <label for="unit">Unit:</label>
+      <select id="unit">
+        <option value="">Select Unit</option>
+        <option value="Kg">Kg</option>
+        <option value="Quintal">Quintal</option>
+        <option value="Ton">Ton</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="state">State:</label>
+      <select id="state">
+        <option value="">Select State</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Haryana">Haryana</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Organic:</label>
+      <div class="radio-group">
+        <label><input type="radio" name="organic" value="Yes" /> Yes</label>
+        <label><input type="radio" name="organic" value="No" /> No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="photoInput">Upload Product Photo:</label>
+      <input type="file" id="photoInput" accept="image/*" />
+      <br><br>
+      <img id="preview" src="" alt="Image Preview" width="150" style="display:none;" />
+    </div>
+
+    <button type="button" onclick="goNext()">Next</button>
+  </form>
+
+  <div id="successMessage">Product listed successfully in the marketplace!</div>
+
+  <h3>Marketplace Listings</h3>
+  <div id="marketplace" class="product-list"></div>
+
+  <script>
+    const photoInput = document.getElementById("photoInput");
+    const preview = document.getElementById("preview");
+
+    photoInput.addEventListener("change", function() {
+      const file = photoInput.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+      }
+    });
+
+    function goNext() {
+      const product = document.getElementById("product-select-sell").value;
+      const quantity = document.getElementById("quantity").value;
+      const unit = document.getElementById("unit").value;
+      const state = document.getElementById("state").value;
+      const organic = document.querySelector('input[name="organic"]:checked')?.value || "No";
+      const photoInput = document.getElementById("photoInput");
+      const previewURL = photoInput.files[0] ? URL.createObjectURL(photoInput.files[0]) : "";
+
+      if (!product || !quantity || !unit || !state) {
+        alert("Please fill in all required fields!");
+        return;
+      }
+
+      const marketplace = document.getElementById("marketplace");
+      const listing = document.createElement("div");
+      listing.className = "product";
+      listing.innerHTML = `
+        <img src="${previewURL}" alt="${product}">
+        <h2>${product}</h2>
+        <p><strong>Quantity:</strong> ${quantity} ${unit}</p>
+        <p><strong>State:</strong> ${state}</p>
+        <p><strong>Organic:</strong> ${organic}</p>
+        <p><strong>Seller:</strong> You</p>
+        <button>Chat with Buyer</button>
+      `;
+
+      marketplace.appendChild(listing);
+      document.getElementById("successMessage").style.display = "block";
+
+      // Clear the form
+      document.getElementById("product-select-sell").value = "";
+      document.getElementById("quantity").value = "";
+      document.getElementById("unit").value = "";
+      document.getElementById("state").value = "";
+      document.querySelectorAll('input[name="organic"]').forEach(el => el.checked = false);
+      photoInput.value = "";
+      preview.src = "";
+      preview.style.display = "none";
+    }
+  </script>
+</body>
+</html>

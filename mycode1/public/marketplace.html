@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Market-Place</title>
+
+  <!-- Bootstrap CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="agrologo.png">
+
+ 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url("bglogin.jpg") no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(300px);
+      color: #fff;
+      padding: 20px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-mode {
+      background: #111 !important;
+      color: #eee !important;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      padding: 10px 20px;
+      border-radius: 15px;
+      display: inline-block;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 15px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-bar {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      width: 250px;
+      font-size: 1rem;
+      backdrop-filter: blur(4px);
+    }
+
+    button {
+      padding: 10px 15px;
+      background: linear-gradient(to right, #28a745, #218838);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 20px;
+    }
+
+    .product {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      transition: all 0.4s ease-in-out;
+      animation: fadeInUp 0.5s ease;
+      padding-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .product:hover {
+      transform: scale(1.05);
+    }
+
+    .product img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .product button {
+      margin: 5px 0;
+      width: 90%;
+    }
+
+    .comparison {
+      margin: 8px 0;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 5px;
+    }
+
+    .rating span {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: gold;
+      transition: transform 0.2s;
+    }
+    .rating span:hover {
+      transform: scale(1.3);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+  </style>
+</head>
+
+<body>
+  <header>
+    <body>
+      <header>
+        <h1 id="market-title">Market-Place 🌾</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded shadow-lg px-4">
+          <div class="container-fluid">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+              <img src="agrologo.png" alt="AgroMarket Logo" width="40" height="40" class="me-2 rounded-circle">
+              <span id="brand-name">AgroStation</span>
+            </a>
+    
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" href="index.html" id="nav-home"><i class="bi bi-house-fill me-1"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="sellbuyagro.html" id="nav-sellbuy"><i class="bi bi-bag-plus-fill me-1"></i> Sell/Buy Product</a></li>
+                <li class="nav-item"><a class="nav-link" href="livedata1.html" id="nav-mandi"><i class="bi bi-bar-chart-fill me-1"></i> Mandi Bhaav</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="nav-about"><i class="bi bi-info-circle-fill me-1"></i> About Us</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-gear-fill me-1"></i> <span id="nav-services">Services</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="contract.html" id="service-contract"><i class="bi bi-clipboard-data me-1"></i> Contract Farming</a></li>
+                    <li><a class="dropdown-item" href="warehouse.html" id="service-warehouse"><i class="bi bi-droplet-fill me-1"></i>WareHouses</a></li>
+                    <li><a class="dropdown-item" href="#" id="service-disease"><i class="bi bi-bug-fill me-1"></i> Crop Disease Detection</a></li>
+                    <li><a class="dropdown-item" href="#" id="service-irrigation"><i class="bi bi-droplet-fill me-1"></i> Smart Irrigation</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="me-3">
+                <select id="languageSelector" class="form-select form-select-sm" style="width: auto;">
+                  <option value="en">English</option>
+                  <option value="hi">हिन्दी</option>
+                  <option value="mr">मराठी</option>
+                </select>
+              </div>
+              <button class="btn btn-outline-light btn-sm me-2" onclick="toggleTheme()">
+                <i class="bi bi-moon-stars-fill"></i>
+              </button>
+              <a href="cart.html" class="btn btn-outline-light btn-sm me-2 position-relative">
+                <i class="bi bi-cart-fill"></i> <span id="cart-text">Cart</span>
+                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+              </a>
+              <a href="orders.html" class="btn btn-outline-light btn-sm me-2">
+                <i class="bi bi-box-seam"></i> <span id="orders-text">My Orders</span>
+              </a>
+              <a href="loginfarmer.html" class="btn btn-outline-light btn-sm"><i class="bi bi-person-circle"></i> <span id="login-text">Login</span></a>
+            </div>
+          </div>
+        </nav>
+      </header>
+    
+      <main>
+        <h2 id="welcome-heading">Welcome To The Market-Place!</h2>
+        <h3 id="browse-heading">Browse or List Your Products</h3>
+    
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search Products" aria-label="Search Products">
+          <button onclick="searchProducts()">🔍</button>
+        </div>
+    
+        <hr><br>
+    
+        <div class="product-list" id="product-list"></div>
+      </main>
+
+
+      <script>
+        const translations = {
+          en: {
+            'market-title': 'Market-Place 🌾',
+            'brand-name': 'AgroStation',
+            'nav-home': 'Home',
+            'nav-sellbuy': 'Sell/Buy Product',
+            'nav-mandi': 'Mandi Bhaav',
+            'nav-about': 'About Us',
+            'nav-services': 'Services',
+            'service-contract': 'Contract Farming',
+            'service-disease': 'Crop Disease Detection',
+            'service-irrigation': 'Smart Irrigation',
+            'cart-text': 'Cart',
+            'orders-text': 'My Orders',
+            'login-text': 'Login',
+            'welcome-heading': 'Welcome To The Market-Place!',
+            'browse-heading': 'Browse or List Your Products'
+          },
+          hi: {
+            'market-title': 'बाज़ार स्थान 🌾',
+            'brand-name': 'एग्रोस्टेशन',
+            'nav-home': 'मुखपृष्ठ',
+            'nav-sellbuy': 'बेचें/खरीदें उत्पाद',
+            'nav-mandi': 'मंडी भाव',
+            'nav-about': 'हमारे बारे में',
+            'nav-services': 'सेवाएं',
+            'service-contract': 'ठेका खेती',
+            'service-disease': 'फसल रोग पहचान',
+            'service-irrigation': 'स्मार्ट सिंचाई',
+            'cart-text': 'कार्ट',
+            'orders-text': 'मेरे ऑर्डर',
+            'login-text': 'लॉगिन',
+            'welcome-heading': 'बाज़ार में आपका स्वागत है!',
+            'browse-heading': 'अपने उत्पाद ब्राउज़ करें या सूचीबद्ध करें'
+          },
+          mr: {
+            'market-title': 'बाजारपेठ 🌾',
+            'brand-name': 'अ‍ॅग्रोस्टेशन',
+            'nav-home': 'मुख्यपृष्ठ',
+            'nav-sellbuy': 'विक्री/खरेदी उत्पादने',
+            'nav-mandi': 'मंडी दर',
+            'nav-about': 'आमच्याबद्दल',
+            'nav-services': 'सेवा',
+            'service-contract': 'करार शेती',
+            'service-disease': 'पिक आजार ओळख',
+            'service-irrigation': 'स्मार्ट सिंचन',
+            'cart-text': 'कार्ट',
+            'orders-text': 'माझी ऑर्डर्स',
+            'login-text': 'लॉगिन',
+            'welcome-heading': 'बाजारपेठेत आपले स्वागत आहे!',
+            'browse-heading': 'उत्पादने ब्राउझ करा किंवा यादीत जोडा'
+          }
+        };
+    
+        document.getElementById("languageSelector").addEventListener("change", function () {
+          const selectedLang = this.value;
+          const translation = translations[selectedLang];
+          if (!translation) return;
+          Object.keys(translation).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = translation[id];
+          });
+        });
+      </script>
+    
+    
+
+  
+
+  <!-- Scripts -->
+  <script>
+    const mandiRates = {
+      "Wheat": 2600, "Rice": 4480, "Toor Daal": 6470, "Maize": 2165, "Pea": 3185, "Tomato": 607,
+      "Potato": 707, "Onion": 777, "Apple": 9318, "Cotton": 6985, "Orange": 1617, "Pineapple": 5977,
+      "Mirch": 8516, "Dhania": 6975, "Sugarcane": 2908, "Tobacco": 1455
+    };
+
+    const products = [
+    { name: "Wheat", price: "₹2590/quintal", image: "wheatagro.jpg", seller: "Raju Bhai, Punjab", mobile: "9876543210" },
+
+      { name: "Rice", price: "₹4474/quintal", image: "riceagro.jpg", seller: "Gujju Pawar, MP", mobile: "9876543210" },
+      { name: "Toor Daal", price: "₹6468/quintal", image: "tooragro.jpg", seller: "Aakash Singh, Bihar", mobile: "9876543210" },
+      { name: "Maize", price: "₹2163/quintal", image: "cornagro.jpg", seller: "Shivam Singh, MP", mobile: "9876543210" },
+      { name: "Pea", price: "₹3181/quintal", image: "peaagro.avif", seller: "Neeraj Negi, Uttrakhand", mobile: "9876543210" },
+      { name: "Tomato", price: "₹604/quintal", image: "tomato.jpg", seller: "Chanchal Mehta, MP", mobile: "9876543210" },
+      { name: "Potato", price: "₹705/quintal", image: "potato.jpg", seller: "Mayank Rai, Bihar", mobile: "9876543210" },
+      { name: "Onion", price: "₹770/quintal", image: "onion.jpg", seller: "Ayush Yadav, MP", mobile: "9876543210" },
+      { name: "Apple", price: "₹9315/quintal", image: "apple.jpg", seller: "Ashish Kumar, Jharkhand", mobile: "9876543210" },
+      { name: "Cotton", price: "₹6980/quintal", image: "cotton.jpg", seller: "Ashwini Pandey, Bihar", mobile: "9876543210" },
+      { name: "Orange", price: "₹1614/quintal", image: "orange.jpg", seller: "Aakash Dodve, Jammu", mobile: "9876543210" },
+      { name: "Pineapple", price: "₹5973/quintal", image: "pineapple.avif", seller: "Sujeet Sahni, UP", mobile: "9876543210" },
+      { name: "Mirch", price: "₹8514/quintal", image: "mirch.jpg", seller: "Sujeet Jaiswal, MP", mobile: "9876543210" },
+      { name: "Dhania", price: "₹6971/quintal", image: "dhanuya.jpg", seller: "Satyabrat, Odisha", mobile: "9876543210" },
+      { name: "Sugarcane", price: "₹2904/quintal", image: "sugarcanagro.jpg", seller: "Raunank Verma, Jharkhand", mobile: "9876543210" },
+      { name: "Tobacco", price: "₹1441/quintal", image: "tobacco.jpg", seller: "Saurabh Gupta, Kerala", mobile: "9876543210" }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartBadge() {
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    function addToCart(productName) {
+      const product = products.find(p => p.name === productName);
+      if (product) {
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartBadge();
+        alert(`${product.name} has been added to your cart!`);
+      }
+    }
+
+    function searchProducts() {
+      const query = document.getElementById("search-input").value;
+      loadProducts(query);
+    }
+
+    document.getElementById('search-input').addEventListener("keypress", function (e) {
+      if (e.key === "Enter") searchProducts();
+    });
+
+    function loadProducts(filter = "") {
+      const iconUp = '<i class="bi bi-arrow-up-circle-fill text-danger" data-bs-toggle="tooltip" title="Above Mandi Price"></i>';
+      const iconDown = '<i class="bi bi-arrow-down-circle-fill text-success" data-bs-toggle="tooltip" title="Below Mandi Price"></i>';
+      let productList = document.getElementById("product-list");
+      productList.innerHTML = "";
+
+      products.forEach(product => {
+        if (product.name.toLowerCase().includes(filter.toLowerCase())) {
+          const productPriceValue = parseInt(product.price.replace(/[^0-9]/g, ""));
+          const mandiPrice = mandiRates[product.name];
+          let comparison = "";
+
+          if (mandiPrice) {
+            const diff = productPriceValue - mandiPrice;
+            const icon = diff > 0 ? iconUp : iconDown;
+            const badgeColor = diff > 0 ? "danger" : "success";
+
+            comparison = `
+              <div class="comparison">
+                <span class="badge bg-${badgeColor}">
+                  ${icon} ₹${Math.abs(diff)}/quintal
+                </span>
+                <p class="mt-1 mb-0"><strong>Mandi Rate:</strong> ₹${mandiPrice}/quintal</p>
+              </div>`;
+          }
+
+          let card = document.createElement("div");
+          card.className = "product";
+          card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h2>${product.name}</h2>
+            <p>${product.price}</p>
+            <p>${product.seller}</p>
+            ${comparison}
+            
+<button onclick="addToCart('${product.name}')">Add to Cart</button>
+<button onclick="placeOrder('${product.name}')">Place Order</button>
+
+<button onclick="showMobile('${product.name}')">View Mobile</button>
+<p id="mobile-${product.name.replace(/\s/g, '')}" style="display:none;"><strong>📞:</strong> ${product.mobile}</p>
+
+<div class="rating">
+  <label>Rate this Crop:</label><br>
+  <span onclick="rateCrop('${product.name}', 1)">⭐</span>
+  <span onclick="rateCrop('${product.name}', 2)">⭐</span>
+  <span onclick="rateCrop('${product.name}', 3)">⭐</span>
+  <span onclick="rateCrop('${product.name}', 4)">⭐</span>
+  <span onclick="rateCrop('${product.name}', 5)">⭐</span>
+</div>
+
+
+          `;
+          productList.appendChild(card);
+        }
+      });
+
+      const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltips.forEach(el => new bootstrap.Tooltip(el));
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    window.onload = () => {
+      loadProducts();
+      updateCartBadge();
+    };
+
+    
+  function openChat(productName, sellerName) {
+    // Save chat context to localStorage or use query parameters
+    const chatData = {
+      product: productName,
+      seller: sellerName
+    };
+    localStorage.setItem('chatData', JSON.stringify(chatData));
+    
+    // Redirect to the chat page
+    window.location.href = 'chat.html';
+  }
+
+
+
+  
+
+// Dummy weather simulation
+
+window.onload = () => {
+  loadProducts();
+  updateCartBadge();
+  loadWeather(); // New
+};
+
+
+function showMobile(productName) {
+  const id = 'mobile-' + productName.replace(/\s/g, '');
+  const mobileTag = document.getElementById(id);
+  if (mobileTag) {
+    mobileTag.style.display = mobileTag.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function rateCrop(productName, rating) {
+  alert(`You rated ${productName} with ${rating} star(s)!`);
+  // Optional: Save to localStorage or send to server
+}
+
+
+
+
+let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+function placeOrder(productName) {
+  const product = products.find(p => p.name === productName);
+  if (!product) return;
+
+  // Ask for quantity
+  let quantity = prompt(`Enter quantity (in quintals) for ${product.name}:`);
+  
+  if (!quantity || isNaN(quantity) || quantity <= 0) {
+    alert("❌ Invalid quantity entered.");
+    return;
+  }
+
+  quantity = parseInt(quantity);
+
+  // Extract numeric price
+  const pricePerQuintal = parseInt(product.price.replace(/[^0-9]/g, ""));
+  const totalPrice = quantity * pricePerQuintal;
+
+  // Build order object
+  const order = {
+    ...product,
+    quantity,
+    totalPrice: `₹${totalPrice}`,
+    pricePerQuintal: `₹${pricePerQuintal}`,
+    orderDate: new Date().toLocaleString()
+  };
+
+  // Save to localStorage
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+
+  alert(`✅ Order Placed for ${quantity} quintals of ${product.name}.\nTotal: ₹${totalPrice}`);
+
+}
+
+
+
+
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
+
+
+
+
+  
+
+  
+</body>
+</html>

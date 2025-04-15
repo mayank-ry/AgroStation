@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अ‍ॅग्रोस्टेशन मार्केटप्लेस</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-brand { font-weight: bold; }
+        .card { margin-bottom: 20px; }
+        .product-rating { color: gold; }
+        .cart-section { position: fixed; top: 100px; right: 20px; width: 300px; }
+        .language-buttons button { margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">अ‍ॅग्रोस्टेशन</a>
+        <div class="ml-auto language-buttons">
+            <a href="marketplace.html"><button class="btn btn-outline-primary btn-sm">English</button></a>
+            <a href="marketplace_hi.html"><button class="btn btn-outline-primary btn-sm">हिंदी</button></a>
+            <a href="marketplace_mr.html"><button class="btn btn-primary btn-sm">मराठी</button></a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">उत्पादने</h2>
+        <div class="row" id="product-list"></div>
+    </div>
+
+    <div class="cart-section bg-light p-3 border rounded">
+        <h5>खरेदी कार्ट</h5>
+        <ul id="cart" class="list-unstyled"></ul>
+        <button class="btn btn-success btn-sm mt-2" onclick="placeOrder()">ऑर्डर करा</button>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "गहू", price: 2000, mandiPrice: 1800, rating: 4 },
+            { id: 2, name: "तांदूळ", price: 2500, mandiPrice: 2400, rating: 5 },
+            { id: 3, name: "डाळ", price: 1500, mandiPrice: 1400, rating: 3 }
+        ];
+
+        const cart = [];
+
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            products.forEach(product => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                col.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p>किंमत: ₹${product.price} / क्विंटल</p>
+                            <p>मंडी किंमत: ₹${product.mandiPrice} / क्विंटल</p>
+                            <p>रेटिंग: ${'★'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)}</p>
+                            <button class="btn btn-primary btn-sm" onclick='addToCart(${JSON.stringify(product)})'>कार्टमध्ये जोडा</button>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(col);
+            });
+        }
+
+        function addToCart(product) {
+            cart.push(product);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartList = document.getElementById('cart');
+            cartList.innerHTML = '';
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - ₹${item.price}`;
+                cartList.appendChild(li);
+            });
+        }
+
+        function placeOrder() {
+            if (cart.length === 0) {
+                alert("कृपया काही उत्पादने निवडा.");
+                return;
+            }
+            alert("तुमची ऑर्डर यशस्वीरित्या प्लेस झाली आहे!");
+            cart.length = 0;
+            updateCart();
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>

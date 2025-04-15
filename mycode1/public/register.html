@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - AgroMarket</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    .register-container {
+      max-width: 450px;
+      margin: auto;
+      margin-top: 60px;
+    }
+    .role-select button {
+      width: 48%;
+    }
+    .form-section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-container p-4 bg-white rounded shadow">
+  <h3 class="text-center mb-4">Register on AgroMarket</h3>
+
+  <!-- Role Selection -->
+  <div id="roleSelect" class="role-select d-flex justify-content-between mb-4">
+    <button class="btn btn-success" onclick="selectRole('buyer')">Buyer</button>
+    <button class="btn btn-primary" onclick="selectRole('seller')">Seller</button>
+  </div>
+
+  <!-- Buyer Registration Form -->
+  <form id="buyerForm" class="form-section">
+    <h5 class="mb-3 text-success">Buyer Registration</h5>
+    <div class="mb-3">
+      <label for="buyerName" class="form-label">Full Name</label>
+      <input type="text" class="form-control" id="buyerName" required>
+    </div>
+    <div class="mb-3">
+      <label for="buyerEmail" class="form-label">Email</label>
+      <input type="email" class="form-control" id="buyerEmail" required>
+    </div>
+    <div class="mb-3">
+      <label for="buyerPassword" class="form-label">Password</label>
+      <input type="password" class="form-control" id="buyerPassword" required>
+    </div>
+    <div class="mb-3">
+      <label for="buyerPhone" class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="buyerPhone" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Register</button>
+  </form>
+
+  <!-- Seller Registration Form -->
+  <form id="sellerForm" class="form-section">
+    <h5 class="mb-3 text-primary">Seller Registration</h5>
+    <div class="mb-3">
+      <label for="sellerName" class="form-label">Full Name</label>
+      <input type="text" class="form-control" id="sellerName" required>
+    </div>
+    <div class="mb-3">
+      <label for="sellerEmail" class="form-label">Email</label>
+      <input type="email" class="form-control" id="sellerEmail" required>
+    </div>
+    <div class="mb-3">
+      <label for="sellerPassword" class="form-label">Password</label>
+      <input type="password" class="form-control" id="sellerPassword" required>
+    </div>
+    <div class="mb-3">
+      <label for="sellerPhone" class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="sellerPhone" required>
+    </div>
+    <div class="mb-3">
+      <label for="farmLocation" class="form-label">Farm Location</label>
+      <input type="text" class="form-control" id="farmLocation" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function selectRole(role) {
+    document.getElementById('roleSelect').style.display = 'none';
+    if (role === 'buyer') {
+      document.getElementById('buyerForm').style.display = 'block';
+    } else {
+      document.getElementById('sellerForm').style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

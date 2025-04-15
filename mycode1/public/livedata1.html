@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgroStation - Live Mandi Rates</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f3f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2874f0;
+            margin: 30px 0 10px;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .filter-sidebar {
+            width: 250px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .filter-sidebar h3 {
+            color: #2874f0;
+            margin-bottom: 10px;
+        }
+
+        .filter-box input,
+        .filter-box select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        .rates-area {
+            flex-grow: 1;
+        }
+
+        .crop-section {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .crop-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+            border-left: 6px solid #2874f0;
+            padding-left: 10px;
+        }
+
+        .rates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .rate-card {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .rate-card:hover {
+            transform: scale(1.02);
+        }
+
+        .rate-card strong {
+            color: #0d47a1;
+            font-size: 16px;
+        }
+
+        .rate-card p {
+            margin: 5px 0;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>AgroStation - Live Mandi Rates</h1>
+
+    <div class="main-container">
+        <div class="filter-sidebar">
+            <h3>Filter Options</h3>
+            <div class="filter-box">
+                <input type="text" id="cropSearch" placeholder="Search Crop...">
+                <select id="priceFilter">
+                    <option value="">Sort by Price</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="rates-area" id="rates-container">Loading...</div>
+    </div>
+
+    <script>
+        const apiKey = "579b464db66ec23bdd000001aeca47dd85774c9061b8db4c1634ed2d";
+        const allCrops = [
+            "Wheat", "Rice", "Maize", "Sugar cane", "Cotton",
+            "Toor Dal", "pea", "tomato", "potato", "onion",
+            "apple", "orange", "pineapple", "chilly",
+            "corriander", "tobacco"
+        ];
+
+        const ratesContainer = document.getElementById('rates-container');
+        const cropSearch = document.getElementById('cropSearch');
+        const priceFilter = document.getElementById('priceFilter');
+
+        let allRateCards = [];
+
+        function renderCrop(crop, records) {
+            const cropId = crop.toLowerCase().replace(/\s+/g, '-') + "-rates";
+
+            const cropSection = document.createElement('div');
+            cropSection.classList.add("crop-section");
+            cropSection.setAttribute("data-crop", crop.toLowerCase());
+
+            cropSection.innerHTML = `
+        <div class="crop-title">${crop}</div>
+        <div id="${cropId}" class="rates-grid"></div>
+      `;
+            ratesContainer.appendChild(cropSection);
+
+            const cropContainer = document.getElementById(cropId);
+
+            records.forEach(record => {
+                const card = document.createElement('div');
+                card.classList.add('rate-card');
+                card.setAttribute("data-price", record.modal_price);
+                card.setAttribute("data-crop", crop.toLowerCase());
+                card.innerHTML = `
+          <strong>${record.market}, ${record.district_name}, ${record.state}</strong>
+          <p>Price: ₹${record.modal_price} / quintal</p>
+          <p>Date: ${record.arrival_date}</p>
+        `;
+                cropContainer.appendChild(card);
+                allRateCards.push(card);
+            });
+
+            filterAndSort(); // Run filter and sort after rendering
+        }
+
+        function filterAndSort() {
+            const searchText = cropSearch.value.toLowerCase();
+            const sortOption = priceFilter.value;
+
+            // Group cards by crop
+            const cropGroups = {};
+            allRateCards.forEach(card => {
+                const crop = card.getAttribute('data-crop');
+                if (!cropGroups[crop]) cropGroups[crop] = [];
+                cropGroups[crop].push(card);
+            });
+
+            // Clear all existing grid contents
+            const cropSections = document.querySelectorAll('.rates-grid');
+            cropSections.forEach(grid => grid.innerHTML = "");
+
+            for (const crop in cropGroups) {
+                const cards = cropGroups[crop];
+
+                // Apply sorting
+                if (sortOption) {
+                    cards.sort((a, b) => {
+                        const priceA = parseInt(a.getAttribute('data-price'));
+                        const priceB = parseInt(b.getAttribute('data-price'));
+                        return sortOption === 'low' ? priceA - priceB : priceB - priceA;
+                    });
+                }
+
+                // Check if crop matches search
+                const show = crop.includes(searchText);
+                const cropSection = document.querySelector(`[data-crop="${crop}"]`);
+                if (cropSection) cropSection.style.display = show ? 'block' : 'none';
+
+                // Re-add sorted cards if visible
+                if (show) {
+                    const targetGrid = document.getElementById(`${crop}-rates`);
+                    cards.forEach(card => targetGrid.appendChild(card));
+                }
+            }
+        }
+
+        cropSearch.addEventListener('input', filterAndSort);
+        priceFilter.addEventListener('change', filterAndSort);
+
+        ratesContainer.innerHTML = '';
+
+        allCrops.forEach(crop => {
+            const url = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${apiKey}&format=json&limit=5&filters[commodity]=${crop}`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        renderCrop(crop, data.records);
+                    }
+                })
+                .catch(err => {
+                    console.error(`Error fetching ${crop} mandi rates:`, err);
+                });
+        });
+    </script>
+
+</body>
+
+</html>

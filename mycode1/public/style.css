@@ -1,0 +1,319 @@
+/* style.css */
+
+/* General Styling 
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f3fff3;
+  color: #2b2b2b;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: linear-gradient(to right, #c0d9b8, #8cae7e);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin-bottom: 20px;
+}
+
+/* Search Input */
+#search-input {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  width: 250px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Button */
+button.search-btn {
+  border: none;
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+/* Product Card */
+.product-card {
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Badge (e.g., ₹350/kg) */
+.badge {
+  background-color: #d32f2f;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 15px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+/* Buttons */
+.btn-success {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+
+.btn-success:hover {
+  background-color: #1b5e20;
+}
+
+/* Chat Button */
+.btn-info {
+  background-color: #388e3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.btn-info:hover {
+  background-color: #2e7d32;
+}
+
+
+
+
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url("bglogin.jpg") no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(300px);
+  color: #fff;
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  padding: 10px 20px;
+  border-radius: 15px;
+  display: inline-block;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+/* Enhanced Product Card 
+
+.product {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  width: 240px;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  animation: fadeInUp 0.5s ease;
+  padding-bottom: 10px;
+}*/
+
+
+.product-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(145deg, #ffffff, #f0fff0);
+  position: relative;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 128, 0, 0.25);
+}
+
+/* Image Styling */
+.product-card img {
+  object-fit: cover;
+  height: 200px;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  border-radius: 20px 20px 0 0;
+}
+
+/* Card Body */
+.product-card .card-body {
+  padding: 16px;
+}
+
+/* Card Hover Overlay (Optional effect) */
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(46, 125, 50, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+/* Green Organic Theme */
+:root {
+  --primary-green: #2e7d32;
+  --light-green: #c8e6c9;
+  --dark-green: #1b5e20;
+  --gray-bg: #f5f5f5;
+}
+
+/* Headings */
+h1, h5 {
+  font-weight: bold;
+  color: var(--primary-green);
+}
+
+/* Product Card */
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: var(--dark-green);
+}
+
+.card-text {
+  font-size: 0.95rem;
+}
+
+/* Mandi Comparison Badge */
+.comparison .badge {
+  font-size: 0.8rem;
+  padding: 5px 8px;
+  border-radius: 20px;
+}
+
+/* Buttons */
+.btn {
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.btn-success {
+  background-color: var(--primary-green);
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: var(--dark-green);
+}
+
+.btn-info {
+  background-color: #0288d1;
+  border: none;
+}
+
+.btn-info:hover {
+  background-color: #01579b;
+}
+
+/* Search Bar */
+#search-input {
+  max-width: 350px;
+  border-radius: 25px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+#search-input:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 5px var(--light-green);
+}
+
+/* Cart Items */
+#cart-items li {
+  font-size: 0.95rem;
+  background-color: var(--light-green);
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+/* Dark Mode Support */
+.dark-mode {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode .product-card,
+.dark-mode .list-group-item {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.dark-mode .btn-info,
+.dark-mode .btn-success {
+  color: #fff;
+}
+
+.dark-mode .badge {
+  background-color: #333;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .product-card img {
+    max-height: 180px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

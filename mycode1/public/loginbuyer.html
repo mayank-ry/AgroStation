@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page-Buyer</title>
+  <style>
+    /* Background image setup */
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("bglogin.jpg") no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      
+    }
+
+    /* Glassy form effect */
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: white;
+      width: 350px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label, input, select {
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    input, select {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <h1>Sign Up/Login-Buyer</h1>
+    <div>
+      <label for="Name">Name</label>
+      <input id="Name" type="text" placeholder="Enter Full Name" required>
+    </div>
+    <div>
+      <label for="Phone">Phone</label>
+      <input id="Phone" type="tel" placeholder="Enter Phone Number" required>
+    </div>
+    <div>
+      <label for="state">State</label>
+      <select id="state">
+        <option>Select State</option>
+        <option>Bihar</option>
+        <option>Madhya Pradesh</option>
+        <option>Punjab</option>
+        <option>Gujrat</option>
+        <option>Rajsthan</option>
+      </select>
+    </div>
+    <div>
+      <label for="Password">Password</label>
+      <input id="Password" type="password" placeholder="Enter Password" required>
+    </div>
+    <div>
+      <a href="marketplace.html">
+        <button type="submit">Submit</button>
+      </a>
+    </div>
+  </form>
+</body>
+</html>

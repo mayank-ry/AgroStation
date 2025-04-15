@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgroStation Bot Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+      margin: 0;
+      background: #f0fff0;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background-color: #4CAF50;
+    }
+
+    .tab {
+      padding: 15px 30px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      border: none;
+      background: transparent;
+      transition: 0.3s;
+    }
+
+    .tab.active {
+      background-color: #388e3c;
+    }
+
+    .section {
+      display: none;
+      padding: 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Chat Bot Styling */
+    #chat-container {
+      max-width: 420px;
+      margin: 30px auto;
+      height: 80vh;
+      border: 2px solid #4CAF50;
+      border-radius: 12px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #chat-box p {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 15px;
+      max-width: 75%;
+      line-height: 1.4;
+    }
+
+    .user { background-color: #d0f0c0; align-self: flex-end; }
+    .bot { background-color: #f1f1f1; align-self: flex-start; }
+
+    #input-area {
+      display: flex;
+      padding: 10px;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button.send {
+      margin-left: 10px;
+      padding: 10px 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Career Bot Styling */
+    .bot-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 30px auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #065f46;
+      margin-bottom: 20px;
+      font-family: 'Merriweather', serif;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select, .bot-container button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .chat {
+      background: #f0fdf4;
+      border-left: 5px solid #22c55e;
+      padding: 25px;
+      border-radius: 15px;
+      white-space: pre-wrap;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #064e3b;
+      box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.15);
+    }
+
+    .chat img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .tab { font-size: 14px; padding: 10px; }
+      #chat-container, .bot-container { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('negotiation')">🤝 Negotiation Bot</button>
+    <button class="tab" onclick="showTab('career')">🚀 Career & Growth</button>
+  </div>
+
+  <div id="negotiation" class="section active">
+    <div id="chat-container">
+      <div id="chat-box">
+        <p class="bot">👋 Hello! I’m your AgroStation Negotiation Bot. Ask me the market rate or suggest a selling price.</p>
+      </div>
+      <div id="input-area">
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button class="send" onclick="handleUserInput()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="career" class="section">
+    <div class="bot-container">
+      <h2>🚀 AgroStation Career & Growth Bot</h2>
+      <label for="interest">Choose your interest area:</label>
+      <select id="interest">
+        <option value="tech">Agri-Tech & Innovation</option>
+        <option value="business">Business & Entrepreneurship</option>
+        <option value="research">Agricultural Research</option>
+        <option value="farming">Modern Farming & Export</option>
+      </select>
+      <button onclick="showAdvice()">✨ Show Career Path</button>
+      <div id="chat-output" class="chat" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Tabs
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Negotiation Bot
+    let marketPrice = 1000;
+    function fetchMarketPrice() {
+      marketPrice = Math.floor(900 + Math.random() * 200);
+    }
+    fetchMarketPrice();
+
+    function handleUserInput() {
+      const inputField = document.getElementById("user-input");
+      const userInput = inputField.value.trim();
+      if (!userInput) return;
+
+      appendMessage(userInput, "user");
+      processBotResponse(userInput);
+      inputField.value = "";
+    }
+
+    function appendMessage(message, sender) {
+      const chatBox = document.getElementById("chat-box");
+      const msg = document.createElement("p");
+      msg.className = sender;
+      msg.textContent = message;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function processBotResponse(userInput) {
+      const lower = userInput.toLowerCase();
+
+      if (/^(hi|hello|hey)\b/.test(lower)) {
+        appendMessage("👋 Hey there! How can I assist your farming business today?", "bot");
+        return;
+      }
+
+      if (lower.includes("how are you") || lower.includes("who are you")) {
+        appendMessage("🤖 I'm your Agro Negotiation Assistant! Helping you get the best crop rates.", "bot");
+        return;
+      }
+
+      if (lower.includes("price") || lower.includes("market")) {
+        appendMessage(`📈 Current market price is ₹${marketPrice}/quintal. What's your expected price?`, "bot");
+        return;
+      }
+
+      if (/\d+/.test(lower)) {
+        const expected = parseInt(lower.match(/\d+/)[0]);
+        const difference = expected - marketPrice;
+        let response = "";
+
+        if (difference >= 400) {
+          response = `😳 ₹${expected}? That's quite high. Let's begin from ₹${marketPrice + 100}?`;
+        } else if (difference >= 200) {
+          response = `😬 That’s a bit high. How about ₹${marketPrice + 100}?`;
+        } else if (difference >= 0) {
+          response = `✅ Sounds fair! We can proceed with ₹${expected}.`;
+        } else if (difference >= -100) {
+          response = `🤝 Hmm… That’s a bit low. Want to meet halfway at ₹${Math.round((expected + marketPrice)/2)}?`;
+        } else if (difference >= -300) {
+          response = `⚠️ ₹${expected} is quite low. At least ₹${marketPrice - 50} would be fair.`;
+        } else {
+          response = `🚫 ₹${expected} is way too low. You’re undervaluing yourself. Try asking ₹${marketPrice} or above.`;
+        }
+
+        appendMessage(response, "bot");
+        return;
+      }
+
+      if (lower.includes("deal") || lower.includes("done")) {
+        appendMessage("🎉 Awesome! Deal locked in. Have a great harvest! 🌾", "bot");
+        return;
+      }
+
+      appendMessage("💬 I can help with price suggestions. Ask for the market rate or type your expected price.", "bot");
+    }
+
+    // Career Bot
+    function showAdvice() {
+      const interest = document.getElementById("interest").value;
+      const chat = document.getElementById("chat-output");
+      let reply = "";
+
+      const roadmapImage = `<img src="https://cdn.pixabay.com/photo/2020/10/24/08/17/career-5685779_1280.png" alt="Educational Roadmap">`;
+
+      if (interest === "tech") {
+        reply = `🔬 *Agri-Tech & Innovation*\n\n🎯 Start After Class 10:\n1️⃣ Choose Science stream with PCM/CS.\n2️⃣ Learn basics of coding (Python, C++).\n3️⃣ Join tech fests, science exhibitions.\n\n📚 After 12th:\n- B.Tech in Agricultural/Computer Engineering\n- Learn IoT, Machine Learning, GIS tools\n\n👨‍💻 Career Roles:\n- Agri Software Developer\n- Drone Operations Lead\n- Agri Data Analyst\n\n🚀 Example: Bayer’s Smart Corn, Fasal's sensors\n🌐 Explore: krishify.com, fao.org/innovation\n${roadmapImage}`;
+      } else if (interest === "business") {
+        reply = `💼 *Business & Entrepreneurship*\n\n🎯 After Class 10:\n1️⃣ Learn trade, agriculture products\n2️⃣ Study DeHaat, BigHaat models\n3️⃣ Choose commerce or agri-science\n\n📚 After 12th:\n- BBA/Agri-Business Management\n- Join startup incubators\n\n👨‍🌾 Roles:\n- Agro Startup Founder\n- Supply Chain Expert\n\n💡 Example: DeHaat’s farmer solutions\n💸 Resources: Startup India, NABARD grants\n${roadmapImage}`;
+      } else if (interest === "research") {
+        reply = `📚 *Agricultural Research*\n\n🎯 After Class 10:\n1️⃣ Choose PCB\n2️⃣ Attend Olympiads, science fairs\n3️⃣ Dive into botany, soil, biotech\n\n📚 After 12th:\n- B.Sc. Agriculture/Biology\n- M.Sc. or PhD in Crop/Soil Science\n\n🔬 Roles:\n- Crop Geneticist\n- Govt Agri Scientist\n\n🌍 Example: ICAR’s Rice genome work\n📌 Sites: icar.org.in, dbtindia.gov.in\n${roadmapImage}`;
+      } else if (interest === "farming") {
+        reply = `🌾 *Modern Farming & Export*\n\n🎯 After Class 10:\n1️⃣ Learn organic farming basics\n2️⃣ Attend Krishi Mela, visit farms\n3️⃣ Read about APEDA, NABARD\n\n📚 After 12th:\n- Diploma in Organic/Smart Farming\n- Learn hydroponics, drip tech\n\n🚜 Roles:\n- Farm Manager\n- Export Crop Consultant\n\n📦 Example: Erode Turmeric Exporters\n🌐 Visit: apeda.gov.in, kisangyan.in\n${roadmapImage}`;
+      }
+
+      chat.innerHTML = reply;
+      chat.style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Add to Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Shop</h1>
+    <div class="relative">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Cart</button>
+      <span id="cart-count" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">0</span>
+    </div>
+  </header>
+
+  <!-- Products Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Product Card -->
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/200" class="w-full mb-4 rounded" alt="Product" />
+      <h2 class="text-lg font-semibold mb-2">Product 1</h2>
+      <p class="text-gray-700 mb-4">$19.99</p>
+      <button onclick="addToCart()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add to Cart</button>
+    </div>
+
+    
+
+    <!-- Duplicate product cards as needed -->
+    <div class="bg-white p-4 rounded shadow">
+      <img src="wheatagro.jpg" class="w-full mb-4 rounded" alt="Product" />
+      <h2 class="text-lg font-semibold mb-2">Product 2</h2>
+      <p class="text-gray-700 mb-4">29.99</p>
+      <button onclick="addToCart()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add to Cart</button>
+    </div>
+
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/200" class="w-full mb-4 rounded" alt="Product" />
+      <h2 class="text-lg font-semibold mb-2">Product 3</h2>
+      <p class="text-gray-700 mb-4">$39.99</p>
+      <button onclick="addToCart()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const products = [
+      { name: "Wheat", price: "₹350/kg", image: "wheatagro.jpg", seller: "Raju Bhai, Punjab" },
+      { name: "Rice", price: "₹40/kg", image: "riceagro.jpg", seller: "Gujju Pawar, MP" },
+      { name: "Toor Daal", price: "₹25/kg", image: "tooragro.jpg", seller: "Aakash Singh, Bihar" },
+      { name: "Maize", price: "₹20/kg", image: "cornagro.jpg", seller: "Shivam Singh, MP" },
+      { name: "Pea", price: "₹30/kg", image: "peaagro.avif", seller: "Neeraj Negi, Uttrakhand" },
+      { name: "Tomato", price: "₹350/kg", image: "tomato.jpg", seller: "Chanchal Mehta, MP" },
+      { name: "Potato", price: "₹40/kg", image: "potato.jpg", seller: "Mayank Rai, Bihar" },
+      { name: "Onion", price: "₹25/kg", image: "onion.jpg", seller: "Ayush Yadav, MP" },
+      { name: "Apple", price: "₹20/kg", image: "apple.jpg", seller: "Ashish Kumar, Jharkhand" },
+      { name: "Cotton", price: "₹30/kg", image: "cotton.jpg", seller: "Ashwini Pandey, Bihar" },
+      { name: "Orange", price: "₹350/kg", image: "orange.jpg", seller: "Aakash Dodve, Jammu" },
+      { name: "Pineapple", price: "₹40/kg", image: "pineapple.avif", seller: "Sujeet Sahni, UP" },
+      { name: "Mirch", price: "₹25/kg", image: "mirch.jpg", seller: "Sujeet Jaiswal, MP" },
+      { name: "Dhania", price: "₹20/kg", image: "dhanuya.jpg", seller: "Satyabrat, Odisha" },
+      { name: "Sugarcane", price: "₹30/kg", image: "sugarcanagro.jpg", seller: "Raunank Verma, Jharkhand" },
+      { name: "Tobacco", price: "₹30/kg", image: "tobacco.jpg", seller: "Saurabh Gupta, Kerala" }
+    ];
+    let cart = 0;
+
+    function addToCart() {
+      cart++;
+      document.getElementById("cart-count").textContent = cartCount;
+    }
+  </script>
+</body>
+</html>

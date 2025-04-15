@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgroStation - Empowering Farmers</title>
+  
+  <!-- Bootstrap CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="agrologo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-brand img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .hero {
+  position: relative;
+  background-image: url('crop.jpeg'); /* Change to your actual image path */
+  background-size: cover;
+  background-position: center;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+
+    .hero {
+      background: url('crop.jpeg') no-repeat center center;
+      background-size: cover;
+      height: 90vh;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero h1, .hero p {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+    }
+
+    .hero .btn {
+      margin-top: 20px;
+    }
+
+    .features {
+      padding: 60px 20px;
+      background-color: #fff;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      background-color: #e9f5ee;
+    }
+
+    .feature-card i {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #198754;
+    }
+
+    .testimonials {
+      background-color: #f1f1f1;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .testimonial {
+      max-width: 600px;
+      margin: auto;
+      font-style: italic;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    .testimonial::before,
+    .testimonial::after {
+      content: '"';
+      font-size: 2rem;
+      color: #198754;
+      position: absolute;
+    }
+
+    .testimonial::before {
+      left: -20px;
+      top: -20px;
+    }
+
+    .testimonial::after {
+      right: -20px;
+      bottom: -20px;
+    }
+
+    .cta-section {
+      background-color: #198754;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #0d4e27;
+      color: #ddd;
+      padding: 40px 20px;
+    }
+
+    footer a {
+      color: #ddd;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons i {
+      font-size: 1.5rem;
+      margin-right: 15px;
+    }
+
+
+    /* Chat Toggle Button */
+#chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  font-size: 24px;
+  padding: 12px 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Chat Container (initially hidden) */
+#chat-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+  max-height: 500px;
+  border: 2px solid #4CAF50;
+  border-radius: 12px;
+  background: #ffffff;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+}
+
+#chat-box {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+  max-height: 380px;
+}
+
+#chat-box p {
+  margin: 8px 0;
+  padding: 10px 14px;
+  border-radius: 15px;
+  max-width: 75%;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.user {
+  background-color: #d0f0c0;
+  align-self: flex-end;
+}
+
+.bot {
+  background-color: #f1f1f1;
+  align-self: flex-start;
+}
+
+#input-area {
+  display: flex;
+  padding: 10px;
+}
+
+#user-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 10px 16px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="agrologo.png" alt="AgroMarket Logo">
+      <span class="fw-bold">AgroStation</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="bi bi-house-fill me-1"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="marketplace.html"><i class="bi bi-bag-plus-fill me-1"></i> Marketplace</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="livedata1.html"><i class="bi bi-graph-up me-1"></i> Mandi Rates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="schemes1.html"><i class="bi bi-newspaper me-1"></i> Agri News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="in.html"><i class="bi bi-people-fill me-1"></i> About us</a>
+        </li>
+      </ul>
+      
+      <div class="d-flex" id="auth-buttons">
+        <a href="loginfarmer.html" class="btn btn-outline-light me-2">
+          <i class="bi bi-person-circle"></i> Login
+        </a>
+        <a href="#" class="btn btn-light">
+          <i class="bi bi-plus-circle-fill"></i> Join Now
+        </a>
+      </div>
+      
+      
+      
+      
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<!-- Hero Section -->
+<section class="hero">
+  <div class="overlay"></div>
+  <div class="container position-relative z-2 text-center text-white">
+    <h1 class="display-4 fw-bold mb-3">Empowering Farmers Across India 🇮🇳</h1>
+    <p class="lead mb-4">Buy, Sell, and Get Market Insights in Your Local Language</p>
+    <a href="marketplace.html" class="btn btn-warning btn-lg shadow">
+      <i class="bi bi-shop-window me-2"></i> Explore Marketplace
+    </a>
+  </div>
+</section>
+
+<!-- Features -->
+<!-- Features -->
+<section class="features" data-aos="fade-up">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-currency-rupee"></i>
+          <h4>Mandi Prices</h4>
+          <p>Live updates of crop prices from your local Mandi.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-chat-dots-fill"></i>
+          <h4>Real-Time Chat</h4>
+          <p>Connect with buyers and sellers instantly.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-bag-check-fill"></i>
+          <h4>Sell Crops Online</h4>
+          <p>List your produce and reach a wider network of buyers.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-globe2"></i>
+          <h4>Export/Import Partners</h4>
+          <p>Connect with verified global and national partners for large-scale trade.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-flower3"></i>
+          <h4>Fertilizers & Seeds</h4>
+          <p>Get access to high-quality fertilizers and certified seeds for your farm.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card bg-light">
+          <i class="bi bi-truck-front-fill"></i>
+          <h4>Bulk Deal (B2B)</h4>
+          <p>Collaborate with industries, wholesalers, and agri-businesses for large orders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Chat Icon Button -->
+<div id="chat-toggle" onclick="toggleChatbot()">
+  💬
+</div>
+
+<!-- Hidden Chatbot Container -->
+<div id="chat-container">
+  <div id="chat-box">
+    <p class="bot">👋 Hello! I’m your AgroStation Negotiation Bot. Ask me the market rate or suggest a selling price.</p>
+  </div>
+  <div id="input-area">
+    <input type="text" id="user-input" placeholder="Type your message..." />
+    <button onclick="handleUserInput()">Send</button>
+  </div>
+</div>
+
+ 
+<!-- Testimonials -->
+<section class="testimonials" data-aos="fade-up">
+  <h2>What Our Farmers Say</h2>
+  <div class="testimonial mt-4">
+    "AgroStation helped me sell my produce directly to buyers. The real-time pricing feature is a game changer!"
+    <br><br><strong>— Ramesh, Maharashtra</strong>
+  </div>
+</section>
+
+
+
+<!-- Call to Action -->
+<section class="cta-section" data-aos="zoom-in">
+  <h2>Join Over 1 Lakh Farmers Today</h2>
+  <p class="mb-4">Empowering rural India through technology and collaboration.</p>
+  <a href="#" class="btn btn-light btn-lg"><i class="bi bi-person-plus-fill me-2"></i>Get Started</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h5>About AgroStation</h5>
+        <p>We connect farmers, buyers, and communities to create a more transparent and profitable agriculture ecosystem.</p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="marketplace.html">Marketplace</a></li>
+          <li><a href="livedata1.html">Mandi Rates</a></li>
+
+          <li><a href="#">Agri News</a></li>
+          <li><a href="#">Join Community</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p>Email: support@agrostation.in<br>Phone: +91 98765 43210</p>
+        <div class="social-icons mt-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap & AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000 });
+</script>
+<script>
+  let marketPrice = 1000;
+
+  function fetchMarketPrice() {
+    marketPrice = Math.floor(900 + Math.random() * 200);
+  }
+
+  fetchMarketPrice();
+
+  function handleUserInput() {
+    const inputField = document.getElementById("user-input");
+    const userInput = inputField.value.trim();
+    if (!userInput) return;
+
+    appendMessage(userInput, "user");
+    processBotResponse(userInput);
+    inputField.value = "";
+  }
+
+  function appendMessage(message, sender) {
+    const chatBox = document.getElementById("chat-box");
+    const msg = document.createElement("p");
+    msg.className = sender;
+    msg.textContent = message;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function processBotResponse(userInput) {
+    const lower = userInput.toLowerCase();
+
+    if (lower.includes("price") || lower.includes("market")) {
+      appendMessage(`📈 Current market price is ₹${marketPrice}/quintal. What's your expected price?`, "bot");
+      return;
+    }
+
+    if (/\d+/.test(lower)) {
+      const expected = parseInt(lower.match(/\d+/)[0]);
+      const difference = expected - marketPrice;
+      let response = "";
+
+      if (difference >= 400) {
+        response = `😳 ₹${expected}? That's way above the market! How about we start with ₹${marketPrice + 100}?`;
+      } else if (difference >= 200) {
+        response = `😬 That’s quite high. Maybe ₹${marketPrice + 100} is more realistic?`;
+      } else if (difference >= 0) {
+        response = `✅ Fair enough! Let’s lock it at ₹${expected}.`;
+      } else if (difference >= -100) {
+        response = `🤝 Hmm… That’s a bit low. Want to meet halfway at ₹${Math.round((expected + marketPrice)/2)}?`;
+      } else if (difference >= -300) {
+        response = `⚠️ ₹${expected} is quite low. At least ₹${marketPrice - 50} would be fair.`;
+      } else {
+        response = `🚫 ₹${expected} is way too low. You’re undervaluing yourself. Try asking ₹${marketPrice} or above.`;
+      }
+
+      appendMessage(response, "bot");
+      return;
+    }
+
+    if (lower.includes("okay") || lower.includes("deal") || lower.includes("done")) {
+      appendMessage("🎉 Deal finalized! Happy farming! 🚜✅", "bot");
+      return;
+    }
+
+    appendMessage("💬 I can help with price suggestions. Ask for the market rate or type your expected price.", "bot");
+  }
+
+  function toggleChatbot() {
+    const chat = document.getElementById("chat-container");
+    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+  }
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
