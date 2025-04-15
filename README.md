@@ -27,7 +27,7 @@ This repo may contain:
 
 ## 📬 Contact Me
 
-- **LinkedIn**: [linkedin.com/in/mayankrai]([https://linkedin.com/in/mayankrai](https://www.linkedin.com/in/mayank-rai-8b41131a1/)) 
+- **LinkedIn**: [(https://www.linkedin.com/in/mayank-rai-8b41131a1/)]([https://linkedin.com/in/mayankrai](https://www.linkedin.com/in/mayank-rai-8b41131a1/)) 
 - **YouTube**: [@MayankRai06]
 - - **Email**: mathsbymayankrai@gmail.com
 
