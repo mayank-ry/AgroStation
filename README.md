@@ -1,6 +1,7 @@
-# My First GitHub Repository
+# AgroStation
 
-Welcome to my first GitHub repo! This is where I begin my journey into the world of coding, version control, and open-source collaboration.
+Agrostation Is B2B Digital Platform , Which Gives A Platform to Farmers And Businesses , To Collab And Trade With Each Other....
+It Gives the transparency and proper communication between farmer and business..
 
 ## 🚀 About Me
 
